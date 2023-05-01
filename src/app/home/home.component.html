@@ -1,0 +1,66 @@
+<mat-chip-listbox aria-label="Fish selection" (change)="onChange($event)">
+    <mat-chip-option>Employee</mat-chip-option>
+    <mat-chip-option>Car</mat-chip-option>
+    <mat-chip-option>TV</mat-chip-option>
+    <mat-chip-option color="warn" selected>All</mat-chip-option>
+  </mat-chip-listbox>
+
+<table *ngIf="dataSource.length > 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> <span>{{element.id}} </span>
+      </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Title </th>
+      <td mat-cell *matCellDef="let element"> <span *ngIf="!element.toggle">{{element.title}} </span>
+        <mat-form-field appearance="fill" *ngIf="element.toggle">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title" [(ngModel)]="element.title"  required>
+          </mat-form-field>
+      </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Type </th>
+      <td mat-cell *matCellDef="let element"> <span *ngIf="!element.toggle">{{element.type}} </span>
+        <mat-form-field appearance="fill" *ngIf="element.toggle">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title" [(ngModel)]="element.type" nrequired>
+          </mat-form-field>
+      </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> <span *ngIf="!element.toggle">{{element.description}}</span>
+        <mat-form-field appearance="fill" *ngIf="element.toggle">
+            <mat-label>Title</mat-label>
+            <textarea matInput placeholder="Title" [(ngModel)]="element.description" required></textarea>
+          </mat-form-field> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary" (click)="row.toggle = !row.toggle"  *ngIf="!row.toggle">
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+          <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn" (click)="deleteByID(row)"  *ngIf="!row.toggle">
+              <mat-icon aria-label="Delete">delete</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Click to Save" class="iconbutton" color="primary" (click)="editById(row)"  *ngIf="row.toggle">
+                <mat-icon aria-label="Submit">Save</mat-icon>
+            </button>
+        </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
